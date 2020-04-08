@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 final class MovieViewCell: UITableViewCell {
 
@@ -17,8 +18,8 @@ final class MovieViewCell: UITableViewCell {
         super.awakeFromNib()
     }
 
-    func setupDataMoviewCell(_ movieName: String, imageData: Data?) {
-        movieNameLabel.text = movieName
-        
+    func setupDataMoviewCell(_ film: Film) {
+        movieNameLabel.text = film.title
+        posterImageView.sd_setImage(with: URL(string: film.posterPath), completed: nil)
     }
 }
