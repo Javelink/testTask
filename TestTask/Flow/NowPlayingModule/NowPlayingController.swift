@@ -17,10 +17,11 @@ final class NowPlayingController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.fetch()
+        tableView.reloadData()
         setupTableView()
         setupDelegates()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
@@ -41,7 +42,6 @@ final class NowPlayingController: UIViewController {
     private func setupDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.reloadData()
     }
 }
 

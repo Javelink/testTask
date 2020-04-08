@@ -8,9 +8,14 @@
 
 import Foundation
 
+protocol Reloaded: class {
+    func reload()
+}
+
 class NetworkManager: NSObject {
 
     static let instance = NetworkManager()
+    weak var delegate: Reloaded?
     var films = [Film]()
     
     func fetchMovies(_ endpoint: MovieEndpoint) {
@@ -35,6 +40,7 @@ class NetworkManager: NSObject {
                 let film = Film(filmId: filmId, title: title, posterPath: posterPath)
                 weakSelf.films.append(film)
             }
+            weakSelf.delegate?.reload()
         }
     }
 }

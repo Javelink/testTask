@@ -8,15 +8,28 @@
 
 import UIKit
 
-final class PopularController: UIViewController {
+final class PopularController: UIViewController, Reloaded {
 
+    func reload() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     @IBOutlet private weak var tableView: UITableView!
     
     private let presenter = PopularPresenter()
     
+    override func loadView() {
+        super.loadView()
+        presenter.fetch()
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.fetch()
+        NetworkManager.instance.delegate = self
+        tableView.reloadData()
         setupTableView()
         setupDelegates()
     }
@@ -25,7 +38,7 @@ final class PopularController: UIViewController {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
@@ -41,7 +54,6 @@ final class PopularController: UIViewController {
     private func setupDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.reloadData()
     }
 }
 
@@ -57,9 +69,6 @@ extension PopularController: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.setupDataMoviewCell(presenter.filmData(indexPath.row))
-
-//        let imageURL = "https://image.tmdb.org/t/p/w1280" + detail[indexPath.row].imageURL
-//            cell.updateData(detail[indexPath.row].name, imageUrl: URL(string: imageURL))
         
         return cell
     }

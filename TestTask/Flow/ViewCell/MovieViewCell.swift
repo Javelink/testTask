@@ -16,6 +16,8 @@ final class MovieViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        movieNameLabel.lineBreakMode = .byWordWrapping
+        movieNameLabel.numberOfLines = 0
     }
 
     func setupDataMoviewCell(_ film: Film) {

@@ -9,33 +9,25 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-
+    
     override func loadView() {
         super.loadView()
-
-        DispatchQueue.global(qos: .background).async { [weak self] in
-
-            guard let _ = self else { return }
-
-//            NetworkManager.instance.fetchMovies(.popular)
-//            let networkManager = NetworkManager()
-////            networkManager.tabBarDelegate = self
-//
-//            networkManager.fetchMovies(.popular)
-//            networkManager.fetchDiscover(.movie)
+        DispatchQueue.global(qos: .background).async {
+            NetworkManager.instance.fetchMovies(.popular)
+            NetworkManager.instance.fetchMovies(.nowPlaying)
         }
-
+        
     }
-
-//    func fetchDiscover(_ endpoint: MovieEndpoint) {
-//        APIClient.fetchResponce(endpoint) { (model: Result) in
-//            print(model.title)
-//        }
-//    }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         create()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
     }
 }
 
@@ -69,13 +61,16 @@ private extension TabBarController {
 
     private func titleTabBar() {
         let titles = ["Popular", "Now Playing"]
-//        let titleImages = ["choose", "rules", "results"]
+        
+        let imageF: UIImage = .imageSystem(.film, pointSize: 20)
+        let imageT: UIImage = .imageSystem(.folder, pointSize: 20)
+        let titleImages = [imageF, imageT]
 
         guard let items = tabBar.items else { return }
 
         for index in 0..<items.count {
             items[index].title = titles[index]
-//            items[index].image = UIImage(named: titleImages[index])?.withRenderingMode(.automatic)
+            items[index].image = titleImages[index]
         }
     }
 }
